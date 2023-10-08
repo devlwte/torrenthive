@@ -14,7 +14,7 @@
   "main": "torrenthive.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/devlwte/sfree.git"
+    "url": "git+https://github.com/devlwte/torrenthive.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
