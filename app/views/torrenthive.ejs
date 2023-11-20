@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TorrentHive - 2023</title>
+
+  <!-- Iconos -->
+  <link rel="stylesheet" href="/lib/icomoon/icomoon.css">
+  <link rel="stylesheet" href="/lib/faws/style.css">
+
+  <!-- Roboto -->
+  <link rel="stylesheet" href="/lib/roboto/roboto.css">
+
+  <!-- Materializecss -->
+  <link rel="stylesheet" href="/lib/materialize/css/materialize.min.css">
+
+  <!-- TorrentHive -->
+  <link rel="stylesheet" href="/css/torrenthive.css">
+  <!-- Browsers -->
+  <link rel="stylesheet" href="/css/browsers.css">
+</head>
+
+<body class="page-home">
+  <div class="loading">
+    <%- include('../include/loading.ejs') %>
+  </div>
+  <div class="bg_top">
+    <div class="container">
+      <div class="flex menu_trs">
+        <div class="logo_page">
+          <img src="/img/logo.svg">
+          TorrentHive
+        </div>
+        <div class="flex items-menu">
+          <li><a href="#" class="trs_downloads">Descargas</a></li>
+          <li><a href="#" class="openlist_torrent">Torrents</a></li>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hide">
+    <input type="file" name="open_torrents" id="open_torrents" accept=".json, .torrent" multiple>
+  </div>
+
+  <div class="body">
+    <div class="container elm_center_h">
+      <div class="input-elm">
+        <input type="text" id="text-search" placeholder="Add a Magnet or search for torrent files" spellcheck="false">
+        <div class="btn-search run_search">
+          <div class="icono-search icon-search"></div>
+        </div>
+      </div>
+
+      <!-- Avisos -->
+      <div class="avisos">
+        <strong>¡Atención!</strong> 🌟 Queremos que disfrutes de la experiencia de descargar torrents al máximo. Sin embargo, para mantener un rendimiento óptimo y garantizar una experiencia suave para todos, te pedimos que no sobrepases ciertos límites en la cantidad de torrents que agregas.
+      </div>
+
+      <!-- <div class="download_list">
+        <div class="download_file">
+          <div class="icono_download"></div>
+          <div class="info_download_list">
+            <div class="name_download">Ghostrunner (build 13.04.2021) ElAmigos</div>
+            <div class="magnet_download">magnet:?xt=urn:btih:b0e0e83f4253cd202a78e6803833f77cfcfe9633&dn=Ghostrunner+(build+13.04.2021)+ElAmigos&tr=udp%3A%2F%2Fshubt.net%3A2710&tr=http%3A%2F%2Fretracker.local%2Fannounce&tr=http%3A%2F%2Ftracker.filetracker.pl%3A8089%2Fannounce&tr=http%3A%2F%2Ftracker2.wasabii.com.tw%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.grepler.com%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2F46.148.18.250%3A2710&tr=http%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2F%5B2001%3A67c%3A28f8%3A92%3A%3A1111%3A1%5D%3A2710&tr=udp%3A%2F%2Fipv6.leechers-paradise.org%3A6969&tr=http%3A%2F%2F9.rarbg.com%3A2710%2Fannounce&tr=http%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=http%3A%2F%2Fmgtracker.org%3A2710%2Fannounce&tr=http%3A%2F%2Ftracker.tfile.me%2Fannounce&tr=http%3A%2F%2Ftracker.torrenty.org%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.trackerfix.com%2Fannounce&tr=http%3A%2F%2Fwww.mvgroup.org%3A2710%2Fannounce&tr=udp%3A%2F%2F9.rarbg.com%3A2710%2Fannounce&tr=udp%3A%2F%2F9.rarbg.me%3A2710%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2710%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fglotorrents.pw%3A6969%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.glotorrents.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker4.piratux.com%3A6969%2Fannounce&tr=udp%3A%2F%2Fpublic.popcorn-tracker.org%3A6969%2Fannounce&tr=http%3A%2F%2F182.176.139.129%3A6969%2Fannounce&tr=http%3A%2F%2F91.218.230.81%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.ilibr.org%3A80%2Fannounce&tr=http%3A%2F%2Fp4p.arenabg.ch%3A1337%2Fannounce&tr=http%3A%2F%2Fpow7.com%3A80%2Fannounce&tr=http%3A%2F%2Fretracker.krs-ix.ru%3A80%2Fannounce&tr=http%3A%2F%2Fsecure.pow7.com%2Fannounce&tr=http%3A%2F%2Ft1.pow7.com%2Fannounce&tr=http%3A%2F%2Ft2.pow7.com%2Fannounce&tr=http%3A%2F%2Fthetracker.org%3A80%2Fannounce&tr=http%3A%2F%2Ftorrentsmd.com%3A8080%2Fannounce&tr=http%3A%2F%2Ftracker.bittor.pw%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.dutchtracking.com%3A80%2Fannounce&tr=http%3A%2F%2Ftracker.dutchtracking.nl%3A80%2Fannounce&tr=http%3A%2F%2Ftracker.edoardocolombo.eu%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.ex.ua%3A80%2Fannounce&tr=http%3A%2F%2Ftracker.kicks-ass.net%3A80%2Fannounce&tr=http%3A%2F%2Ftracker1.wasabii.com.tw%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker2.itzmx.com%3A6961%2Fannounce&tr=http%3A%2F%2Fwww.wareztorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2F62.138.0.158%3A6969%2Fannounce&tr=udp%3A%2F%2Feddie4.nl%3A6969%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fshadowshq.eddie4.nl%3A6969%2Fannounce&tr=udp%3A%2F%2Fshadowshq.yi.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.eddie4.nl%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.mg64.net%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.sktorrent.net%3A6969&tr=udp%3A%2F%2Ftracker2.indowebster.com%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.dutchtracking.com%2Fannounce&tr=http%3A%2F%2Ftracker.mg64.net%3A6881%2Fannounce&tr=udp%3A%2F%2Fbt.xxx-tracker.com%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.mg64.net%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fzer0day.ch%3A1337%2Fannounce&tr=udp%3A%2F%2Fzer0day.to%3A1337%2Fannounce&tr=udp%3A%2F%2F9.rarbg.me%3A2780%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2730%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.sktorrent.net%3A6969%2Fannounce&tr=http%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.aletorrenty.pl%3A2710%2Fannounce&tr=http%3A%2F%2Ftracker.aletorrenty.pl%3A2710%2Fannounce&tr=http%3A%2F%2Ftracker.bittorrent.am%2Fannounce&tr=udp%3A%2F%2Ftracker.kicks-ass.net%3A80%2Fannounce&tr=http%3A%2F%2Ftracker.kicks-ass.net%2Fannounce&tr=http%3A%2F%2Ftracker.baravik.org%3A6970%2Fannounce&tr=udp%3A%2F%2Ftorrent.gresille.org%3A80%2Fannounce&tr=http%3A%2F%2Ftorrent.gresille.org%2Fannounce&tr=http%3A%2F%2Ftracker.skyts.net%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.skyts.net%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.dutchtracking.nl%2Fannounce&tr=udp%3A%2F%2Ftracker.yoshi210.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.yoshi210.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.filetracker.pl%3A8089%2Fannounce&tr=udp%3A%2F%2Ftracker.ex.ua%3A80%2Fannounce&tr=udp%3A%2F%2F91.218.230.81%3A6969%2Fannounce&tr=https%3A%2F%2Fwww.wareztorrent.com%2Fannounce&tr=http%3A%2F%2Fwww.wareztorrent.com%2Fannounce&tr=http%3A%2F%2Ftracker.ex.ua%2Fannounce&tr=http%3A%2F%2Ftracker.calculate.ru%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.grepler.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.flashtorrents.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.bittor.pw%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.tvunderground.org.ru%3A3218%2Fannounce&tr=http%3A%2F%2Ftracker.flashtorrents.org%3A6969%2Fannounce&tr=http%3A%2F%2Fretracker.gorcomnet.ru%2Fannounce&tr=udp%3A%2F%2Ftracker.kuroy.me%3A5944%2Fannounce&tr=udp%3A%2F%2F182.176.139.129%3A6969%2Fannounce&tr=http%3A%2F%2Ftracker.kuroy.me%3A5944%2Fannounce&tr=http%3A%2F%2Fretracker.krs-ix.ru%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2F208.67.16.113%3A8000%2Fannounce&tr=udp%3A%2F%2F213.163.67.56%3A1337%2Fannounce&tr=http%3A%2F%2F173.254.204.71%3A1096%2Fannounce&tr=udp%3A%2F%2F195.123.209.40%3A80%2Fannounce&tr=udp%3A%2F%2F62.212.85.66%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.piratepublic.com%3A1337%2Fannounce</div>
+            <div class="pr_download">
+              <div class="info_download_total_downloaded">
+                <div class="total_downloaded">
+                  <span class="download_speed">2 MB/s</span>
+                  <span>(2 GB/5 GB)</span>
+                </div>
+              </div>
+              <div class="liner-download"></div>  
+            </div>        
+          </div>
+
+          <div class="stop_pause">
+            <div class="pause_down icon-pause1"></div>
+            <div class="stop_down icon-media-stop"></div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div class="torrents_list">
+        <div class="container">
+
+          <div class="torrent_file">
+            <div class="icono_file_list">
+              <div class="icon_file"></div>
+            </div>
+            <div class="text_info_file">
+              <h5>Nombre</h5>
+              <h6>https://gamesfull.app/</h6>
+              <div class="files_download">
+                <div class="exes">
+                  <span>Files exe:</span>
+                  <span>4</span>
+                </div>
+                <div class="exes">
+                  <span>Files iso:</span>
+                  <span>4</span>
+                </div>
+
+                <div class="exes">
+                  <span>Other files:</span>
+                  <span>4</span>
+                </div>
+
+                <div class="exes">
+                  <span>Total files:</span>
+                  <span>100</span>
+                </div>
+
+              </div>
+
+              <div class="tabla">
+                <div class="header-table">
+                  <div class="tbh">Name</div>
+                  <div class="tbh">Path</div>
+                  <div class="tbh">Size</div>
+                </div>
+                <div class="tset">
+                  <div class="tbbody">
+                    <div class="tbb">Name</div>
+                    <div class="tbb">Path</div>
+                    <div class="tbb">Size</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="line_progress"></div>
+              <div class="btns">
+                <button class="btn waves-effect waves-light blue">Descargar</button>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div> -->
+
+      <!-- <div id="miDiv">
+        <div class="body_el">
+          Contenido del div
+          <button>Save</button>
+        </div>
+        <div class="resize-handle top-left" onmousedown="iniciarRedimensionamiento(event, 'top-left')"></div>
+        <div class="resize-handle top-right" onmousedown="iniciarRedimensionamiento(event, 'top-right')"></div>
+        <div class="resize-handle bottom-left" onmousedown="iniciarRedimensionamiento(event, 'bottom-left')"></div>
+        <div class="resize-handle bottom-right" onmousedown="iniciarRedimensionamiento(event, 'bottom-right')"></div>
+        <div class="resize-handle top" onmousedown="iniciarRedimensionamiento(event, 'top')"></div>
+        <div class="resize-handle bottom" onmousedown="iniciarRedimensionamiento(event, 'bottom')"></div>
+        <div class="resize-handle left" onmousedown="iniciarRedimensionamiento(event, 'left')"></div>
+        <div class="resize-handle right" onmousedown="iniciarRedimensionamiento(event, 'right')"></div>
+      </div> -->
+
+
+    </div>
+
+  </div>
+
+  <h5 class="title_drag_drop">Suelta los archivos torrent aquí para iniciar la descarga</h5>
+
+  <!-- jquery -->
+  <script src="/lib/jQuery/jquery.module.js"></script>
+
+  <!-- Node JS -->
+  <script src="/lib/js/nodejs.js"></script>
+
+  <!-- materialize -->
+  <script src="/lib/materialize/js/materialize.min.js"></script>
+  <script src="/lib/materialize/js/init.js"></script>
+
+  <!-- pagination -->
+  <script src="/lib/paginations/pagination.min.js"></script>
+
+  <!-- saved -->
+  <script src="/lib/js/saved.js"></script>
+
+  <!-- util -->
+  <script src="/lib/js/codeutilkit.js"></script>
+
+  <!-- resizable -->
+  <script src="/js/resizable.js"></script>
+  <!-- WinWeb -->
+  <script src="/js/winweb.js"></script>
+
+  <script src="/js/browserwin.js"></script>
+
+  <!-- Main -->
+  <script src="/js/main.js"></script>
+
+
+</body>
+
+</html>

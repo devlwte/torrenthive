@@ -1,239 +1,141 @@
+// Electron JS
 const { app, BrowserWindow, dialog } = require('electron');
-const si = require("systeminformation");
-const { v4: uuidv4 } = require('uuid');
-const parseTorrent = require("parse-torrent");
 
-const moment = require('moment');
-
+// Modules de Node
 const path = require("path");
 const fs = require("fs");
+const { URLSearchParams, URL } = require('url');
 
-const TorrentHash = require("../../modules/torrent-hash");
-const torrenthash = new TorrentHash();
+// axios
+const axios = require('axios');
 
-const UtilNode = require("../../modules/utilnode");
-const utilnode = new UtilNode({
-  electron: { dialog, BrowserWindow },
-  uuid: { uuidv4 },
-  si: si,
-  parseTorrent: parseTorrent,
-});
+// Saved
+const saved = require('../../modules/saved')
 
-const TorrentDownload = require("./app/modules/torrent-download");
-const torrentdownload = new TorrentDownload();
+// UtilCode
+const utilcode = require("../../modules/utilcodes")
 
-let cache = {};
-
-function errorCache(error, data) {
-  if (!cache["alerts"]) {
-    cache["alerts"] = [];
-  }
-
-  const datemoment = moment();
-  const date = datemoment.format('D [de] MMM. YYYY');
-  cache["alerts"].unshift({
-    title: error.code || error.title || null,
-    message: error.message,
-    data: error.extra || null,
-    date
-  });
-}
-
+// libraries
 const lib = require("../../modules/util-libraries")
 
+// UserData
+const userdata = app.getPath("userData")
+
+// package app
+const package_app = require("./package.json")
+
+
+// Crear carpetas
+async function setFolders(raiz, ruta) {
+  try {
+    await utilcode.createFolderRecursive(raiz, ruta);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+// Creator Folder App
+async function folders_app() {
+  await setFolders(userdata, `apps/${package_app.name}/json`);
+}
+
+// Read Files Json
+async function openFileJson(file, existfile = false, value = "") {
+  try {
+    if (existfile) {
+      if (!fs.existsSync(file)) {
+        await utilcode.fsWrite(file, JSON.stringify(value, null, 2));
+      }
+    }
+    const filejsontext = await utilcode.fsRead(file)
+    return utilcode.jsonParse(filejsontext);
+  } catch (error) {
+    return false;
+  }
+}
+
+// Config Default
+async function app_default() {
+  // Crear Carpetas
+  await folders_app();
+
+  // api games
+  if (!saved.hasKey("apigames")) {
+    
+    let response = {};
+    try {
+       const get = await axios.get(`https://devlwte.github.io/appshubster/json/hash.json`, { timeout: (1000 * 10) });
+       response = get.data;
+    } catch (error) {
+      response = {};
+    }
+
+    // save
+    saved.addSaved("apigames", response);
+    await utilcode.fsWrite(path.join(__dirname, "app", "public", "hash.json"), JSON.stringify(response, null, 2));
+  }
+
+}
+
+// download
+const DownloadTorrent = require("./app/modules/download");
+const downloadtorrent = new DownloadTorrent();
 
 const routes = [
   {
     method: "get",
     path: "/",
-    handler: (req, res) => {
-      // render
-      res.render(path.join(__dirname, "app", "views", "index"));
-    },
-  },
-  {
-    method: "get",
-    path: "/downloads",
-    handler: (req, res) => {
-      // render
-      res.render(path.join(__dirname, "app", "views", "downloads"));
-    },
-  },
-  {
-    method: "get",
-    path: "/cog",
-    handler: (req, res) => {
-      // render
-      res.render(path.join(__dirname, "app", "views", "cog"));
-    },
-  },
-  {
-    method: "get",
-    path: "/alert",
-    handler: (req, res) => {
-      // render
-      res.render(path.join(__dirname, "app", "views", "alert"), {
-        alerts: cache["alerts"] || []
+    handler: async (req, res) => {
+      // User Default
+      await app_default();
+      // Renderer
+      res.render(path.join(__dirname, "app", "views", "torrenthive"), {
+        app_pack: package_app
       });
     },
   },
   {
     method: "post",
-    path: "/new-download",
+    path: "/download",
     handler: async (req, res) => {
-      let { hash, magnet, peso, timeoutMilliseconds = (1000 * 30) } = req.body;
-      let selectFolder = null;
+      let body = req.body;
       try {
-        selectFolder = await utilnode.openFolder();
+        const ms = await downloadtorrent.download(body);
+        res.send(ms)
       } catch (error) {
-        errorCache(error);
-        res.send(false);
-        return;
-      }
-
-      try {
-        await torrentdownload.download(selectFolder, { hash, magnet, peso, timeoutMilliseconds });
-        res.json(true);
-      } catch (error) {
-        error.extra = await utilnode.getInfoTorrent(magnet);
-        errorCache(error);
-        res.send(false);
-        return;
-      }
-    },
-  },
-  {
-    method: "post",
-    path: "/action-download",
-    handler: (req, res) => {
-      let { action, hash, magnet } = req.body;
-      if (action == "pause") {
-        torrentdownload.pause(hash)
-      } else if (action == "stop") {
-        torrentdownload.stop(hash)
-      }
-
-      res.end();
-    },
-  },
-  {
-    method: "post",
-    path: "/torrent-info",
-    handler: async (req, res) => {
-      let { torrent, type } = req.body;
-      let parse = await utilnode.getInfoTorrent(torrent);
-      if (type == "file") {
-        res.json(parse)
-      } else if (type == "magnet") {
-        try {
-          let getTorrentInfo = await torrenthash.getDataTorrent(parse.infoHash, torrent, (1000 * 30));
-          res.json(getTorrentInfo)
-        } catch (error) {
-          error.extra = parse;
-          errorCache(error);
-          res.send(false);
-        }
-      }
-
-    },
-  },
-  {
-    method: "post",
-    path: "/get-info-downloads",
-    handler: (req, res) => {
-      let { action, hash } = req.body;
-      if (action == "hashs") {
-        res.json(torrentdownload.hashs);
-      } else if (action == "downloads") {
-        res.json(torrentdownload.downloads[hash] || false);
-      } else if (action == "stop") {
-
-      } else if (action == "pause") {
-
+        res.send(error)
       }
     },
   },
   {
     method: "get",
-    path: "/system/:method",
+    path: "/trs/:action/:infoHash",
     handler: async (req, res) => {
-      let pr = req.params;
-
-      if (pr.method == "disks") {
-        let veryCache = cache[pr.method];
-
-        if (!veryCache) {
-          cache[pr.method] = await utilnode.fsSize();
-          res.json(cache[pr.method]);
-        } else {
-          res.json(cache[pr.method]);
-        }
-
+      let params = req.params;
+      let resp = null;
+      if (params.action === "pause") {
+        resp = downloadtorrent.pause(params.infoHash);
+      } else if (params.action === "continue") {
+        resp = downloadtorrent.continue(params.infoHash);
+      } else if (params.action === "stop") {
+        resp = downloadtorrent.stoptr(params.infoHash);
+      }
+      res.send(resp);
+    },
+  },
+  {
+    method: "get",
+    path: "/get/:infoHash",
+    handler: async (req, res) => {
+      let params = req.params;
+      if (saved.hasKey(params.infoHash)) {
+        res.send(saved.getSaved(params.infoHash));
       } else {
-        res.send(null);
+        res.send(false);
       }
-
     },
-  },
-  {
-    method: "post",
-    path: "/open-file",
-    handler: async (req, res) => {
-      const selectedFile = await utilnode.openFile({
-        title: "Seleccionar archivo",
-        filters: [{ name: "Archivo Torrent", extensions: ["torrent"] }],
-      });
-
-      res.send(selectedFile);
-    },
-  },
-  {
-    method: "get",
-    path: "/file/*",
-    handler: async (req, res) => {
-      //   let referer = req.headers.referer || req.headers.referrer;
-      //   let ar = referer.split("/");
-
-      const extName = path.extname(req.params[0]);
-
-      // Tipos de contenido
-      const contentTypes = {
-        ".css": "text/css",
-        ".js": "text/javascript",
-        ".json": "application/json",
-        ".png": "image/png",
-        ".ico": "image/x-icon",
-        ".jpg": "image/jpeg",
-        ".svg": "image/svg+xml",
-        ".mp3": "audio/mpeg", // Tipo de contenido para archivos mp3
-        ".mp4": "video/mp4", // Tipo de contenido para archivos mp4
-      };
-
-      const contentType = contentTypes[extName] || "text/html";
-
-      res.writeHead(200, { "Content-Type": contentType });
-
-      // open
-      let pk = await lw.json("read", null, __dirname, "package.json");
-      const nameFolder = path.dirname(__dirname);
-      const nameFile = path.join(nameFolder, pk.name, req.params[0]);
-
-      const readStream = fs.createReadStream(nameFile);
-
-      readStream.pipe(res);
-    },
-  },
-  {
-    method: 'get',
-    path: '/stop-all-process',
-    handler: (req, res) => {
-      if (req.query.active) {
-        torrentdownload.destroyAll();
-        cache = {};
-      }
-      res.end();
-    }
   }
-];
+]
 
-module.exports = [...routes, ...lib];
+module.exports = [...lib, ...routes];

@@ -39,5 +39,15 @@
     "Security"
   ],
   "author": "@SFree",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "parse-torrent": "9.1.5",
+    "uuid": "^9.0.1",
+    "webtorrent": "1.9.1"
+  },
+  "webPreferences": {
+    "nodeIntegration": true,
+    "contextIsolation": false,
+    "webviewTag": true
+  }
 }
