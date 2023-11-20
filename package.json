@@ -41,6 +41,8 @@
   "author": "@SFree",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.5.1",
+    "hat": "^0.0.3",
     "parse-torrent": "9.1.5",
     "uuid": "^9.0.1",
     "webtorrent": "1.9.1"
